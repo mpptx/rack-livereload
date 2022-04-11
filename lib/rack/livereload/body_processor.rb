@@ -5,7 +5,6 @@ module Rack
     class BodyProcessor
       LIVERELOAD_JS_PATH = '/__rack/livereload.js'
       HEAD_TAG_REGEX = /<head>|<head[^(er)][^<]*>/
-      LIVERELOAD_HOST = "localhost"
       LIVERELOAD_PORT = 35729
 
       attr_reader :content_length, :new_body, :livereload_added
@@ -20,8 +19,7 @@ module Rack
 
       def initialize(body, options)
         @body, @options = body, options
-        @options[:live_reload_host] ||= LIVERELOAD_HOST
-	@options[:live_reload_port] ||= LIVERELOAD_PORT
+        @options[:live_reload_port] ||= LIVERELOAD_PORT
 
         @processed = false
       end
@@ -45,7 +43,7 @@ module Rack
 
           uri = URI.parse(livereload_local_uri)
 
-          http = Net::HTTP.new(@options[:live_reload_host], uri.port)
+          http = Net::HTTP.new(uri.host, uri.port)
           http.read_timeout = 1
 
           begin
@@ -115,4 +113,3 @@ module Rack
     end
   end
 end
-
