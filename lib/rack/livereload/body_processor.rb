@@ -15,7 +15,7 @@ module Rack
       end
 
       def livereload_local_uri
-        "#{protocol}://#{@options[:live_reload_host]}:#{@options[:live_reload_port]}/livereload.js"
+        "#{protocol}://localhost:#{@options[:live_reload_port]}/livereload.js"
       end
 
       def initialize(body, options)
@@ -45,7 +45,7 @@ module Rack
 
           uri = URI.parse(livereload_local_uri)
 
-          http = Net::HTTP.new(uri.host, uri.port)
+          http = Net::HTTP.new(@options[:live_reload_host], uri.port)
           http.read_timeout = 1
 
           begin
