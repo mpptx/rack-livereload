@@ -7,6 +7,8 @@ use Rack::Logger
 use Rack::LiveReload
 run Rack::Directory.new('.')
 
+set :bind, '0.0.0.0'
+
 if false
 
 get '/' do
