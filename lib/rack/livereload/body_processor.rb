@@ -5,6 +5,7 @@ module Rack
     class BodyProcessor
       LIVERELOAD_JS_PATH = '/__rack/livereload.js'
       HEAD_TAG_REGEX = /<head>|<head[^(er)][^<]*>/
+      LIVERELOAD_HOST = "localhost"
       LIVERELOAD_PORT = 35729
 
       attr_reader :content_length, :new_body, :livereload_added
@@ -14,12 +15,13 @@ module Rack
       end
 
       def livereload_local_uri
-        "#{protocol}://localhost:#{@options[:live_reload_port]}/livereload.js"
+        "#{protocol}://#{@options[:live_reload_host]}:#{@options[:live_reload_port]}/livereload.js"
       end
 
       def initialize(body, options)
         @body, @options = body, options
-        @options[:live_reload_port] ||= LIVERELOAD_PORT
+        @options[:live_reload_host] ||= LIVERELOAD_HOST
+	@options[:live_reload_port] ||= LIVERELOAD_PORT
 
         @processed = false
       end
